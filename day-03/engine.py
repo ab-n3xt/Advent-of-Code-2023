@@ -96,7 +96,7 @@ def find_adjacent_numbers(lines: str, line_index: int, char_index: int):
 
 
 total = 0
-with open("C:\\Users\\Aidan\\Projects\\Advent-of-Code-2023\\day-03\\input.txt") as fr:
+with open("input.txt") as fr:
     lines = fr.readlines()
     for line_index, line in enumerate(lines):
         line = line.strip()
