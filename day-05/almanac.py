@@ -15,7 +15,17 @@ with open("input.txt") as fr:
     # Get seeds
     (_, seed_numbers) = lines[0].split(":")
     seeds = list(map(int, seed_numbers.strip().split(" ")))
-    print("Seeds: ", seeds)
+    
+    # Get range of seeds
+    range_of_seeds = []
+    index = 0
+    while index < len(seeds)-1:
+        start_value, length = seeds[index], seeds[index+1]
+        for i in range(start_value, start_value+length):
+            range_of_seeds.append(i)
+        index += 2
+
+    # print("Seeds: ", range_of_seeds)
 
     pattern = re.compile("(\d*) (\d*) (\d*)")
     mappings = []
@@ -29,9 +39,9 @@ with open("input.txt") as fr:
             mappings.append(((src, src+length-1), (dest, dest+length-1)))
         elif len(mappings) != 0:
             seed_index = 0
-            while seed_index < len(seeds):
-                seed = seeds[seed_index]
-                seeds[seed_index] = convert_seed(seed, mappings)
+            while seed_index < len(range_of_seeds):
+                seed = range_of_seeds[seed_index]
+                range_of_seeds[seed_index] = convert_seed(seed, mappings)
                 seed_index += 1
             # print("Converted seeds: ", seeds)
             mappings.clear()
@@ -39,12 +49,13 @@ with open("input.txt") as fr:
     # Check one more time
     if len(mappings) != 0:
         seed_index = 0
-        while seed_index < len(seeds):
-            seed = seeds[seed_index]
-            seeds[seed_index] = convert_seed(seed, mappings)
+        while seed_index < len(range_of_seeds):
+            seed = range_of_seeds[seed_index]
+            range_of_seeds[seed_index] = convert_seed(seed, mappings)
             seed_index += 1
         # print("Converted seeds: ", seeds)
         mappings.clear()
     
-    print(seeds)
+    # print(range_of_seeds)
+    # print(len(range_of_seeds))
     print(min(seeds))
