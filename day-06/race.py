@@ -5,11 +5,15 @@ with open("input.txt") as fr:
 
     [_, times] = times.split(":")
     times = times.strip().split()
-    times = list(map(int, times))
+    time = int("".join(times))
+    times.clear()
+    times.append(time)
 
     [_, distances] = distances.split(":")
     distances = distances.strip().split()
-    distances = list(map(int, distances))
+    distance = int("".join(distances))
+    distances.clear()
+    distances.append(distance)
 
     for index, time in enumerate(times):
         distance = distances[index]
