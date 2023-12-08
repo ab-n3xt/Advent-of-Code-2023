@@ -1,14 +1,14 @@
 strength_map = {
-    '2': 0,
-    '3': 1,
-    '4': 2,
-    '5': 3,
-    '6': 4,
-    '7': 5,
-    '8': 6,
-    '9': 7,
-    'T': 8,
-    'J': 9,
+    'J': 0,
+    '2': 1,
+    '3': 2,
+    '4': 3,
+    '5': 4,
+    '6': 5,
+    '7': 6,
+    '8': 7,
+    '9': 8,
+    'T': 9,
     'Q': 10,
     'K': 11,
     'A': 12
@@ -83,22 +83,40 @@ def is_one_pair(hand):
     
     return False
 
-def determine_type(hand) -> int:
+def determine_type(hand: str) -> int:
     if (is_five_of_a_kind(hand)):
         return 6
     elif (is_four_of_a_kind(hand)):
+        if 'J' in hand:
+            return 6
         return 5
     elif (is_full_house(hand)):
+        if 'J' in hand:
+            return 6
         return 4
     elif (is_three_of_a_kind(hand)):
+        if 'J' in hand:
+            return 5
         return 3
     elif (is_two_pair(hand)):
+        if 'J' in hand:
+            if hand.count('J') == 2:
+                return 5
+            else:
+                return 4
         return 2
     elif (is_one_pair(hand)):
+        if 'J' in hand:
+            return 3
         return 1
     else:
+        if 'J' in hand:
+            return 1
         return 0
 
+# Store all previous hands in this map
+# Key: the value of the hand
+# Value: list of all hands that have key-value
 ranked_hands = {
     6: [],
     5: [],
@@ -115,6 +133,7 @@ with open("input.txt") as fr:
         [hand, bet_value] = line.strip().split()
         type_value = determine_type(hand)
         rival_hands = ranked_hands[type_value]
+
         card_added = False
         for index, rival_hand in enumerate(rival_hands):
             result = compare_two_hands(hand=hand, rival_hand=rival_hand[0])
@@ -127,6 +146,7 @@ with open("input.txt") as fr:
             
         if not card_added:
             rival_hands.append((hand, int(bet_value)))
+        
         ranked_hands[type_value] = rival_hands
     
     rank = len(lines)
